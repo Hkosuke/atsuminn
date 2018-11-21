@@ -63,6 +63,9 @@
 <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
 <script>
 import Appform from './components/Appform.vue'
+import firebase from 'firebase'
+import {config} from './firebase/firebase_config.js'
+
 export default {
   components: Appform,
   data: () => ({
