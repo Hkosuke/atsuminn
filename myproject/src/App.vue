@@ -1,115 +1,77 @@
 <template>
-  <div id="app" class="container">
-    <div class="page-header">
-      <h1>Firebase Sample App</h1>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3>Add Book</h3>
-      </div>
-      <div class="panel-body">
-        <form id="form" class="form-inline" v-on:submit.prevent="addBook">
-          <div class="form-group">
-            <label for="bookTitle">Title:
-            </label>
-            <input type="text" id="bookTitle" class="form-control" v-model="newBook.title">
-          </div>
-          <div class="form-group">
-            <label for="bookAuthor">Author:
-            </label>
-            <input type="text" id="bookAuthor" class="form-control" v-model="newBook.author">
-          </div>
-          <div class="form-group">
-            <label for="bookUrl">Url:
-            </label>
-            <input type="text" id="bookUrl" class="form-control" v-model="newBook.url">
-          </div>
-          <input type="submit" class="btn btn-primary" value="Add Book">
-        </form>
-      </div>
-    </div>
+<div id="app">
+  <v-app id="inspire">
+    <v-navigation-drawer
+      fixed
+      v-model="drawer"
+      app
+    >
+      <v-list dense>
+        <v-list-tile @click="">
+          <v-list-tile-action>
+            <v-icon>home</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Home</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="">
+          <v-list-tile-action>
+            <v-icon>contact_mail</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Contact</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+    <v-toolbar color="indigo" dark fixed app>
+      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-title>Application</v-toolbar-title>
+    </v-toolbar>
+    <v-content>
+      <v-container fluid ma-0 pa-0 fill-height>
+        <v-layout
+          justify-center
+          align-center
+        >
+          
+            <router-view></router-view>
+          
+        </v-layout>
+      </v-container>
+    </v-content>
+    <v-footer color="indigo" app inset>
+      <span class="white--text">&copy; 2017</span>
+    </v-footer>
+  </v-app>
+</div>
 
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3>Books Lists</h3>
-      </div>
-      <div class="panel-body">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>
-                Title
-              </th>
-              <th>
-                Author
-              </th>
-              <ht>
-                Delete
-              </ht>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="book in books">
-              <td>
-                <a v-bind:href="book.url">{{book.title}}</a>
-              </td>
-              <td>
-                {{book.author}}
-              </td>
-              <td>
-                <span class="glyphicom glyphicon-trash" v-on:click="removeBook(book)"></span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <img src="./assets/logo.png">
-    <router-view/>
-  </div>
+  <!--
+<v-app>
+  <v-navigation-drawer v-model="sidebar" app></v-navigation-drawer>
+  <v-toolbar app></v-toolbar>
+  <v-content>
+    <v-container fluid>
+      <router-view></router-view>
+    </v-container>
+  </v-content>
+  <v-footer app></v-footer>
+</v-app>
+-->
 </template>
 <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
 <script>
-import Firebase from 'firebase'
-
-const config = {
-  apiKey: "AIzaSyB8ZVjhyO5CvSpO4Iu6n0MmmsO_uOLPyPs",
-  authDomain: "fk6-co.firebaseapp.com",
-  databaseURL: "https://fk6-co.firebaseio.com",
-  projectId: "fk6-co",
-  storageBucket: "fk6-co.appspot.com",
-  messagingSenderId: "810812087591"
-}
-
-const app = Firebase.initializeApp(config);
-const db = app.database();
-const booksRef = db.ref('books');
-
+import Appform from './components/Appform.vue'
 export default {
-  name: 'App',
-  firebase: {
-    books: booksRef
-  },
-  data () {
-    return {
-      newBook: {
-        title: '',
-        author: '',
-        url: ''
-      }
+  components: Appform,
+  data: () => ({
+      drawer: false,
+    }),
+    props: {
+      source: String
     }
-  },
-  methods: {
-    addBook: function(){
-      booksRef.push(this.newBook);
-      this.newBook.title = '';
-      this.newBook.author = '';
-      this.newBook.url = '';
-    },
-    removeBook: function(book){
-      booksRef.child(book['.key']).remove();
-    }
-  }
+
 }
 </script>
 
