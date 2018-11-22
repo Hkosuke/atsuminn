@@ -4,10 +4,11 @@
   <v-app id="inspire">
     <v-navigation-drawer
       fixed
+      dark
       v-model="drawer"
       app
     >
-      <v-list dense>
+      <v-list subheader>
         <v-list-tile @click="">
           <v-list-tile-action>
             <v-icon>home</v-icon>
@@ -26,7 +27,7 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar color="indigo" dark fixed app>
+    <v-toolbar color="dark" dark fixed app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>Creative Avdulla System</v-toolbar-title>
     </v-toolbar>
@@ -36,61 +37,54 @@
           justify-center
           align-center
         >
-  <div id="Appform" class="container">
-    <div class="page-header">
-      <h1>Firebase Sample App</h1>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3>Add Book</h3>
-      </div>
-      <router-view/>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3>Books Lists</h3>
-      </div>
-      <div class="panel-body">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>
-                Title
-              </th>
-              <th>
-                Author
-              </th>
-              <th>
-                Delete
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="book in books">
-              <td>
-                <a v-bind:href="book.url">{{book.title}}</a>
-              </td>
-              <td>
-                {{book.author}}
-              </td>
-              <td>
-                <span class="glyphicom glyphicon-trash" v-on:click="removeBook(book)"></span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
+  <template>
+  <v-card>
+    <v-card-title>
+      App list
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        append-icon="search"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
+    <v-data-table
+      :headers="headers"
+      :items="books"
+      :search="search"
+      class="elevation-1"
+    >
+      <template slot="items" scope="props">
+          <td class="text-xs-left">{{props.item.title}}</td>
+          <td class="text-xs-left">{{props.item.author}}</td>
+          <td class="text-xs-left">{{props.item.url}}</td>
           
+        <td class="justify-center layout px-0">
+          <v-icon
+            small
+            @click="removeBook(props.item)"
+          >
+            delete
+          </v-icon>
+        </td>
+      </template>
+      <v-alert slot="no-results" :value="true" color="error" icon="warning">
+        Your search for "{{ search }}" found no results.
+      </v-alert>
+    </v-data-table>
+        <router-view/>
+  </v-card>
+</template>
         </v-layout>
       </v-container>
     </v-content>
-    <v-footer color="indigo" app inset>
+    <v-footer color="dark" dark app inset>
       <span class="white--text">&copy; 2018</span>
     </v-footer>
   </v-app>
+
 </div>
 
 
@@ -122,6 +116,21 @@ export default {
     return {
       dialog: false,
       drawer: false,
+      search: '',
+      headers: [
+        {
+          text:'Title',value:'title'
+        },
+        {
+          text:'Author',value:'Author'  
+        },
+        {
+          text:'Url',value:'url' 
+        },
+        {
+          text:'Delete',value:'Delete',sortable: false
+        },
+      ]
     }
   },
   methods: {
@@ -136,14 +145,17 @@ export default {
   }
 }
 </script>
-
+<!--
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  /*
   color: #2c3e50;
+  */
   margin-top: 60px;
 }
 </style>
+-->
