@@ -1,22 +1,34 @@
 <template>
 <v-layout row justify-center>
     <v-dialog v-model="dialog" persistent max-width="600px">
-      <v-btn slot="activator" color="primary" dark>Create form</v-btn>
+      <v-btn slot="activator" color="primary" dark>Create Reportform</v-btn>
       <v-card>
         <v-card-title>
-          <span class="headline">Create Book</span>
+          <span class="headline">Create Report</span>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
             <v-layout wrap>
               <v-flex xs12>
-                <v-text-field v-model="newBook.title" label="title" required></v-text-field>
+                <v-text-field v-model="newReport.studentid" label="studentid" required></v-text-field>
               </v-flex>
               <v-flex xs12>
-                <v-text-field v-model="newBook.author" label="author" required></v-text-field>
+                <v-text-field v-model="newReport.company" label="company" required></v-text-field>
               </v-flex>
               <v-flex xs12>
-                <v-text-field v-model="newBook.url" label="url" required></v-text-field>
+                <v-text-field v-model="newReport.place" label="place" required></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="newReport.startdate" label="startdate" required></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="newReport.enddate" label="enddate" required></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="newReport.content" label="content" required></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="newReport.status" label="status" required></v-text-field>
               </v-flex>
             </v-layout>
           </v-container>
@@ -24,7 +36,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" flat @click="dialog = false">Close</v-btn>
-          <v-btn color="blue darken-1" flat @click="addBook($event); dialog = false">Save</v-btn>
+          <v-btn color="blue darken-1" flat @click="addReport($event); dialog = false">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -35,29 +47,37 @@
 import firebase from 'firebase'
 import {config} from '../firebase/firebase_config'
 const db = firebase.database();
-const booksRef = db.ref('books');
+const reportsRef = db.ref('report');
 
 export default {
   name: 'dialogForm',
   firebase: {
-    books: booksRef
+    reports: reportsRef
   },
   data () {
     return {
-      newBook: {
-        title: '',
-        author: '',
-        url: ''
+      newReport: {
+        studentid: '',
+        company: '',
+        place: '',
+        startdate: '',
+        enddate: '',
+        content: '',
+        status: ''
       },
       dialog: false
     }
   },
   methods: {
-    addBook: function() {
-      booksRef.push(this.newBook);
-      this.newBook.title = '';
-      this.newBook.author = '';
-      this.newBook.url = '';
+    addReport: function() {
+      reportsRef.push(this.newReport);
+      this.newReport.studentid = '';
+      this.newReport.company = '';
+      this.newReport.place = '';
+      this.newReport.startdate = '';
+      this.newReport.enddate = '';
+      this.newReport.content = '';
+      this.newReport.status = '';
     },
   }
 }

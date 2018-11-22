@@ -52,19 +52,22 @@
     </v-card-title>
     <v-data-table
       :headers="headers"
-      :items="books"
+      :items="reports"
       :search="search"
       class="elevation-1"
     >
       <template slot="items" scope="props">
-          <td class="text-xs-left">{{props.item.title}}</td>
-          <td class="text-xs-left">{{props.item.author}}</td>
-          <td class="text-xs-left">{{props.item.url}}</td>
-          
+          <td class="text-xs-left">{{props.item.studentid}}</td>
+          <td class="text-xs-left">{{props.item.company}}</td>
+          <td class="text-xs-left">{{props.item.place}}</td>
+          <td class="text-xs-left">{{props.item.startdate}}</td>
+          <td class="text-xs-left">{{props.item.enddate}}</td>
+          <td class="text-xs-left">{{props.item.content}}</td>
+          <td class="text-xs-left">{{props.item.status}}</td>
         <td class="justify-center layout px-0">
           <v-icon
             small
-            @click="removeBook(props.item)"
+            @click="removeReport(props.item)"
           >
             delete
           </v-icon>
@@ -106,11 +109,11 @@ export const config = {
 */
 const app = firebase.initializeApp(config);
 const db = app.database();
-const booksRef = db.ref('books');
+const reportsRef = db.ref('report');
 export default {
   name: 'Appform',
   firebase: {
-    books: booksRef
+    reports: reportsRef
   },
   data () {
     return {
@@ -119,13 +122,25 @@ export default {
       search: '',
       headers: [
         {
-          text:'Title',value:'title'
+          text:'Studentid',value:'studentid'
         },
         {
-          text:'Author',value:'Author'  
+          text:'Company',value:'company'  
         },
         {
-          text:'Url',value:'url' 
+          text:'Place',value:'place' 
+        },
+        {
+          text:'Startdate',value:'startdate' 
+        },
+        {
+          text:'Enddate',value:'enddate' 
+        },
+        {
+          text:'Content',value:'content' 
+        },
+        {
+          text:'status',value:'status' 
         },
         {
           text:'Delete',value:'Delete',sortable: false
@@ -134,8 +149,8 @@ export default {
     }
   },
   methods: {
-    removeBook: function(book){
-      booksRef.child(book['.key']).remove();
+    removeReport: function(app){
+      reportsRef.child(app['.key']).remove();
     },
     signOut: function () {
       firebase.auth().signOut().then(() => {
