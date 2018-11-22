@@ -1,4 +1,41 @@
 <template>
+  <v-app>
+  <v-container fluid ma-0 pa-0 fill-height>
+    <v-layout class="text-xs-center" align-center justify-center>
+  <v-form ref="form" v-model="valid" lazy-validation>
+    <img src="../assets/logo.png">
+    <v-text-field
+      v-model="username"
+      :rules="emailRules"
+      label="E-mail"
+      required
+    ></v-text-field>
+    <v-text-field
+      v-model="password"
+      label="Password"
+      :append-icon="show ? 'visibility_off' : 'visibility'"
+      :type="show ? 'text' : 'password'"
+      @click:append="show = !show"
+    ></v-text-field>
+    <v-btn
+      :disabled="!valid"
+      @click="signIn"
+    >
+      signin
+    </v-btn>
+    <v-btn @click="clear">clear</v-btn>
+    <p>You don't have an account?<br> 
+      <router-link to="/signup">create account now!!</router-link>
+    </p>
+  </v-form>
+</v-layout>
+</v-container>
+</v-app>
+</template>
+
+
+<!--
+<template>
   <div class="signin">
     <h2>Sign in</h2>
     <input type="text" placeholder="Username" v-model="username">
@@ -9,15 +46,20 @@
     </p>
   </div>
 </template>
-
+-->
 <script>
 import firebase from 'firebase'
 export default {
   name: 'Signin',
   data () {
     return {
+      show: false,
       username: '',
-      password: ''
+      password: '',
+      emailRules: [
+        v => !!v || 'E-mail is required',
+        v => /.+@.+/.test(v) || 'E-mail must be valid'
+      ],
     }
   },
   methods: {
@@ -31,12 +73,16 @@ export default {
           alert(err.message)
         }
       )
+    },
+    clear () {
+      this.$refs.form.reset()
     }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+<!--
 <style scoped>
 h1, h2 {
   font-weight: normal;
@@ -65,3 +111,4 @@ input {
   padding: 10px;
 }
 </style>
+-->

@@ -1,5 +1,41 @@
 
 <template>
+<div id="app">
+  <v-app id="inspire">
+    <v-navigation-drawer
+      fixed
+      v-model="drawer"
+      app
+    >
+      <v-list dense>
+        <v-list-tile @click="">
+          <v-list-tile-action>
+            <v-icon>home</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Home</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="signOut">
+          <v-list-tile-action>
+            <v-icon>exit_to_app</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Sign Out</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+    <v-toolbar color="indigo" dark fixed app>
+      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-title>Creative Avdulla System</v-toolbar-title>
+    </v-toolbar>
+    <v-content>
+      <v-container fluid ma-0 pa-0 fill-height>
+        <v-layout
+          justify-center
+          align-center
+        >
   <div id="Appform" class="container">
     <div class="page-header">
       <h1>Firebase Sample App</h1>
@@ -8,28 +44,8 @@
       <div class="panel-heading">
         <h3>Add Book</h3>
       </div>
-      <div class="panel-body">
-        <form id="form" class="form-inline" v-on:submit.prevent="addBook">
-          <div class="form-group">
-            <label for="bookTitle">Title:
-            </label>
-            <input type="text" id="bookTitle" class="form-control" v-model="newBook.title">
-          </div>
-          <div class="form-group">
-            <label for="bookAuthor">Author:
-            </label>
-            <input type="text" id="bookAuthor" class="form-control" v-model="newBook.author">
-          </div>
-          <div class="form-group">
-            <label for="bookUrl">Url:
-            </label>
-            <input type="text" id="bookUrl" class="form-control" v-model="newBook.url">
-          </div>
-          <input type="submit" class="btn btn-primary" value="Add Book">
-        </form>
-      </div>
+      <router-view/>
     </div>
-
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3>Books Lists</h3>
@@ -64,16 +80,26 @@
           </tbody>
         </table>
       </div>
-        <button @click="signOut">Sign out</button>
     </div>
-    <router-link to="/"></router-link>
-    <router-view/>
   </div>
+
+          
+        </v-layout>
+      </v-container>
+    </v-content>
+    <v-footer color="indigo" app inset>
+      <span class="white--text">&copy; 2018</span>
+    </v-footer>
+  </v-app>
+</div>
+
+
 </template>
 <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
 <script>
 import firebase from 'firebase'
 import {config} from '../firebase/firebase_config'
+
 /*
 export const config = {
   apiKey: "AIzaSyB8ZVjhyO5CvSpO4Iu6n0MmmsO_uOLPyPs",
@@ -94,20 +120,11 @@ export default {
   },
   data () {
     return {
-      newBook: {
-        title: '',
-        author: '',
-        url: ''
-      }
+      dialog: false,
+      drawer: false,
     }
   },
   methods: {
-    addBook: function(){
-      booksRef.push(this.newBook);
-      this.newBook.title = '';
-      this.newBook.author = '';
-      this.newBook.url = '';
-    },
     removeBook: function(book){
       booksRef.child(book['.key']).remove();
     },

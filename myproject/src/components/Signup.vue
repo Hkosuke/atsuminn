@@ -13,7 +13,11 @@
 -->
 
 <template>
+  <v-app>
+  <v-container fluid ma-0 pa-0 fill-height>
+  <v-layout class="text-xs-center" align-center justify-center>
   <v-form ref="form" v-model="valid" lazy-validation>
+    <img src="../assets/logo.png">
     <v-text-field
       v-model="username"
       :rules="emailRules"
@@ -24,6 +28,9 @@
       v-model="password"
       :rules="[rules.min]"
       label="Password"
+      :append-icon="show ? 'visibility_off' : 'visibility'"
+      :type="show ? 'text' : 'password'"
+      @click:append="show = !show"
       required
     ></v-text-field>
 
@@ -35,6 +42,9 @@
     </v-btn>
     <v-btn @click="clear">clear</v-btn>
   </v-form>
+  </v-layout>
+  </v-container>
+  </v-app>
 </template>
 
 <script>
@@ -64,6 +74,9 @@ export default {
         .catch(error => {
           alert(error.message)
         })
+    },
+    clear () {
+      this.$refs.form.reset()
     }
   }
 }
