@@ -64,20 +64,11 @@
           <td class="text-xs-left">{{props.item.enddate}}</td>
           <td class="text-xs-left">{{props.item.content}}</td>
           <td class="text-xs-left">{{props.item.status}}</td>
-        <td class="justify-center layout px-0">
-          <v-icon
-            small
-            @click="removeReport(props.item)"
-          >
-            delete
-          </v-icon>
-        </td>
       </template>
       <v-alert slot="no-results" :value="true" color="error" icon="warning">
         Your search for "{{ search }}" found no results.
       </v-alert>
     </v-data-table>
-        <router-view/>
   </v-card>
 </template>
         </v-layout>
@@ -107,11 +98,10 @@ export const config = {
   messagingSenderId: "810812087591"
 }
 */
-const app = firebase.initializeApp(config);
-const db = app.database();
+const db = firebase.database();
 const reportsRef = db.ref('report');
 export default {
-  name: 'Appform',
+  name: 'Teacher',
   firebase: {
     reports: reportsRef
   },
@@ -141,10 +131,7 @@ export default {
         },
         {
           text:'status',value:'status' 
-        },
-        {
-          text:'Delete',value:'Delete',sortable: false
-        },
+        }
       ]
     }
   },
@@ -160,17 +147,3 @@ export default {
   }
 }
 </script>
-<!--
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  /*
-  color: #2c3e50;
-  */
-  margin-top: 60px;
-}
-</style>
--->
