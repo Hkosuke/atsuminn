@@ -4,6 +4,7 @@ import Signin from '@/components/Signin'
 import Signup from '@/components/Signup'
 import Appform from '@/components/Appform'
 import Createform from '@/components/Createform'
+import hoge from '@/components/hoge'
 import Top from '@/components/Top'
 import firebase from 'firebase'
 Vue.use(Router)
@@ -31,6 +32,10 @@ let router = new Router({
       ],
   		meta: { requiresAuth: true }
   	},
+    {
+      path: '/teacher',
+      component: hoge
+    },
     {
       path: '/signin',
       name: 'Signin',
